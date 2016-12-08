@@ -1,0 +1,9 @@
+<% action = band.id.nil? ? bands_url : band_url(band) %>
+<% call_method = band.id.nil? ? :post : :patch %>
+
+<form action="<%= action %>" method="POST">
+  <label id="name">Artist/Band Name</label><br />
+  <input type="text" name="band[name]" /><br />
+
+  <%= button_to "Submit", action, method: call_method %>
+</form>

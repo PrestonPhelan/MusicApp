@@ -1,5 +1,5 @@
 #Views needed
-# _ index
+# X index
 # _ new
 # _ edit
 # _ show
