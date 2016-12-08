@@ -1,12 +1,12 @@
 #Views needed
 # X index
-# _ new
-# _ edit
+# X new
+# X edit
 # _ show
 class BandsController < ApplicationController
   def index
     @bands = Band.all
-    render :index ##Build this
+    render :index
   end
 
   def create
@@ -21,7 +21,7 @@ class BandsController < ApplicationController
 
   def new
     @band = Band.new
-    render :new #Build this, use form partial
+    render :new
   end
 
   def edit
@@ -31,7 +31,7 @@ class BandsController < ApplicationController
 
   def show
     @band = Band.find(params[:id])
-    render :show #Build this
+    render :show
   end
 
   def update
@@ -40,7 +40,7 @@ class BandsController < ApplicationController
       redirect_to band_url(@band)
     else
       flash.now[:errors] = @band.errors.full_messages
-      render :edit #Build this, use form partial
+      render :edit
     end
   end
 
