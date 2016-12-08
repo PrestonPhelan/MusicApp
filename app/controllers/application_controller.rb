@@ -4,9 +4,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :current_user
+  helper_method :authenticate_input
 
   def current_user
-    return nil unless session[:session_token]
+    return nil if session[:session_token].nil?
     @current_user ||= User.find_by(session_token: session[:session_token])
   end
 
@@ -18,8 +19,8 @@ class ApplicationController < ActionController::Base
     current_user.nil?
   end
 
-  def logout
-    current_user.reset_session_token!
+  def logout(user)
+    user.reset_session_token!
     session[:session_token] = nil
   end
 end

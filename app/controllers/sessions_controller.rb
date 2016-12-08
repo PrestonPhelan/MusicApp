@@ -1,16 +1,26 @@
 class SessionsController < ApplicationController
+  include ApplicationHelper
   def new
-    #render :new
+    render :new
   end
 
   def create
-    login(@user)
-    #redirect_to user_url(@user.id)
+    @user = User.find_by_credentials(
+      params[:user][:email],
+      params[:user][:password]
+    )
+    if @user
+      login(@user)
+      redirect_to user_url(@user)
+    else
+      flash.now[:errors] = ["Invalid username/password combination"]
+      render :new
+    end
   end
 
   def destroy
-    logout
-    #redirect_to somewhere
+    logout(current_user)
+    redirect_to new_user_url
   end
 
   # private
