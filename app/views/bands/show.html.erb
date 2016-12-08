@@ -1,5 +1,15 @@
-<h2> <%= @band.name %></h2><br />
+<h2> <%= @band.name %></h2>
 
 <h3> Albums </h3>
 
-<%= render @band.albums %>
+<%= render @band.albums %> <br />
+
+<%= button_to "Add Album", new_band_album_url(@band), method: :get %> <br /><br />
+
+<h4>Quick Links</h4>
+<%= link_to "Up", bands_url %> <br /> <br />
+
+<h4>Modify Entry</h4>
+
+<%= button_to "Edit", edit_band_url(@band), method: :get %> <br />
+<%= button_to "Delete", band_url(@band), method: :destroy %> <br />
