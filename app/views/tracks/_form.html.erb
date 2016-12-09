@@ -5,3 +5,33 @@ Use radio buttons to mark a track as a "bonus" or "regular" track.
 Again, default select the appropriate value.
 
 Use a textarea to allow the user to enter lyrics. -->
+
+<% track ||= Track.new %>
+<% action = track.id.nil? ? tracks_url : track_url(track) %>
+
+<form action="<%= action %>" method="POST">
+  <label>Song Title</label>
+  <input type="Text" name="track[song]"/><br />
+
+  <label>Album</label>
+  <select name="track[album_id]">
+    <% Album.all.includes(:band).order(:title).each do |album| %>
+    <option value=<%= album.id %> <%= params["album_id"].to_i == album.id ? "selected" : "" %> >
+      <%= "#{album.title} - #{album.band.name}" %>
+    </option>
+    <% end %>
+  </select><br />
+
+  <label>Type of Track</label><br>
+  <input type="radio" value="Regular" checked />Regular
+  <input type="radio" value="Bonus" <%= track.location == "Bonus" ? "checked" : "" %>/>Bonus <br />
+
+  <label>Lyrics</label>
+  <textarea> <%= track.lyrics %></textarea> <br />
+
+  <% if track.id.nil? %>
+    <%= button_to "Add Track", action %>
+  <% else %>
+    <%= button_to "Update Track", action, method: :patch %>
+  <% end %>
+</form>
