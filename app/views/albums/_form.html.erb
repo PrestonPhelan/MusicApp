@@ -1,8 +1,28 @@
-<!-- Have a drop-down to select which Band recorded the Album.
-Use selected to default-select the appropriate Band in the drop-down.
+<% have_info = !album.id.nil? %>
+<% action = have_info ? album_url(album) : albums_url %>
 
+<form action="<%= action %>" method="POST">
 
-Use radio buttons to select whether the album is a live or studio album.
-Don't use a column named type,
-  since Rails uses this for a special purpose and everything will break.
-Use checked to default select the appropriate value. -->
+<label for="Title">Title</label><br />
+<input id="Title" name="album[title]" value="<%= have_info ? album.title : "" %>" /><br /><br />
+
+<label for="Artist">Artist</label>
+<select name="album[band_id]">
+  <% Band.all.order(:name).each do |band| %>
+    <option value="<%= band.id %>".to_i <%= params["band_id"].to_i == band.id ? "selected" : "" %> >
+      <%= band.name %>
+    </option>
+  <% end %>
+</select> <br /><br />
+
+<label for="Venue">Venue</label><br />
+<input id="Venue" type="radio" name="album[recording]" value="Studio" checked>Studio</input>
+<input id="Venue" type="radio" name="album[recording]" value="Live" <%= have_info && album.recording == "Live" ? "checked" : "" %>>Live</input><br /><br />
+
+<% if have_info %>
+  <%= button_to "Update Album", action, method: :patch %>
+<% else %>
+  <%= button_to "Add Album", action %>
+<% end %>
+
+</form>
